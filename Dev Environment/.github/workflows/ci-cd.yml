@@ -15,10 +15,6 @@ jobs:
 
     steps:
 
-      # 1. Checkout repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       # 2. Azure Login using OIDC
       - name: Azure Login
         uses: azure/login@v3
