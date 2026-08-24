@@ -1,46 +1,52 @@
-name: Run Azure Login with OIDC
+# File: .github/workflows/workflow.yml
 
-on:
-  push:
-    branches:
-      - main
+name: Run Azure Login with OIDC
+on: [push]
 
 permissions:
   id-token: write
   contents: read
-
 jobs:
   build-and-deploy:
     runs-on: self-hosted
 
     steps:
 
-      # 2. Azure Login using OIDC
-      - name: Azure Login
+      # Checkout Repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+
+    
+      - name: Azure login
         uses: azure/login@v3
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  
+  # Terraform Installation
+    
+      - name: Check Terraform
+        run: terraform version
 
-      # 3. Setup Terraform
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v4
-        with:
-          terraform_version: "1.14.6"
-
-      # 4. Terraform Init
-      - name: Terraform Init
+     # Terraform Init
+    
+      - name: Terraform init
         run: terraform init
 
-      # 5. Terraform Format Check
-      - name: Terraform Format
-        run: terraform fmt -check
+    # Terraform fmt
+    
+      - name: Terraform fmt 
+        run: terraform fmt 
 
-      # 6. Terraform Validate
-      - name: Terraform Validate
-        run: terraform validate
+        # Terraform validate
+    
+      - name: Terraform validate
+        run: terraform validate 
 
-      # 7. Terraform Plan
-      - name: Terraform Plan
-        run: terraform plan
+        # Terraform plan
+    
+      - name: Terraform plan 
+        run: terraform plan 
